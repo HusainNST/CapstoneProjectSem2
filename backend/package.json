@@ -1,0 +1,28 @@
+{
+  "name": "backend",
+  "module": "index.ts",
+  "scripts": {
+    "dev": "ts-node-dev --files src/index.ts",
+    "build": "tsc && cp .env dist || true",
+    "start": "node dist/index.js"
+  },
+  "private": true,
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "@types/bun": "latest",
+    "@types/dotenv": "^8.2.3",
+    "@types/express": "^5.0.1",
+    "eslint": "^9.26.0",
+    "express": "^5.1.0",
+    "globals": "^16.0.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript-eslint": "^8.32.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "prisma": "^6.7.0"
+  }
+}
