@@ -1,7 +1,11 @@
+"use client";
 import Image from "next/image";
 import Logo from "~/components/Logo";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <div className="w-full flex flex-col items-center">
       <header className="flex justify-center items-center gap-32 py-10 mb-20">
@@ -10,6 +14,9 @@ export default function Home() {
           className={
             "text-xl md:text-2xl text-white bg-[#E75134] rounded-3xl py-2 px-14 border-8 border-[#FF8167] mb-2 cursor-pointer"
           }
+          onClick={() => {
+            router.push("/login");
+          }}
         >
           Login
         </button>
@@ -24,6 +31,9 @@ export default function Home() {
           className={
             "text-xl md:text-2xl text-white bg-[#E75134] rounded-3xl py-2 px-14 border-8 border-[#FF8167] mb-2 cursor-pointer"
           }
+          onClick={() => {
+            router.push("/login");
+          }}
         >
           Start playing now
         </button>
@@ -41,7 +51,7 @@ export default function Home() {
         <div className="flex gap-10 justify-center items-center flex-wrap">
           <Image width={376} height={376} alt="Feature" src="/feature1.png" />
           <Image width={376} height={376} alt="Feature" src="/feature2.png" />
-          <Image width={376} height={376} alt="Feature" src="/feature2.png" />
+          <Image width={376} height={376} alt="Feature" src="/feature3.png" />
         </div>
       </section>
       <footer className="my-5">
