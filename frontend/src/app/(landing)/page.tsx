@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <header className="flex justify-center items-center gap-32 py-10 mb-20">
+      <header className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-32 py-10 mb-6 md:mb-14">
         <Logo type="landing" />
         <button
           className={
@@ -24,8 +24,8 @@ export default function Home() {
 
       <main className="flex flex-col items-center justify-center w-full text-center gap-10">
         <div>
-          <h1 className="text-7xl">MEMORIZE. PLAY. ENJOY</h1>
-          <h1 className="text-7xl">W/ FLIPPY</h1>
+          <h1 className="text-5xl md:text-7xl">MEMORIZE. PLAY. ENJOY</h1>
+          <h1 className="text-5xl md:text-7xl">W/ FLIPPY</h1>
         </div>
         <button
           className={
@@ -55,7 +55,7 @@ export default function Home() {
         </div>
       </section>
       <footer className="my-5">
-        <p className="text-3xl">©️2025 FLIPPY. MADE BY HUSAIN KHORAKIWALA</p>
+        <p className="text-xl md:text-3xl text-center">©️2025 FLIPPY. MADE BY HUSAIN KHORAKIWALA</p>
       </footer>
     </div>
   );

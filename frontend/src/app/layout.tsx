@@ -4,6 +4,7 @@ import "./globals.css";
 
 const LilOne = Lilita_One({
   weight: "400",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
