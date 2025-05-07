@@ -1,14 +1,17 @@
 import Image from "next/image";
 
-const Logo = () => {
+interface Props {
+  type?: string;
+}
+const Logo = ({ type }: Props) => {
   return (
     <Image
       src="/FlippyLogo.png"
-      alt="Flippy Logo"
-      height={60}
-      width={209}
+      alt="Flippy logo"
+      height={117}
+      width={434}
       priority
-      className="h-auto w-[576] z-10"
+      className={`${!type && "h-auto w-[576]"} z-10`}
     />
   );
 };
