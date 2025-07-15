@@ -1,10 +1,16 @@
 import Express from "express";
-import dotenv from "dotenv";
+import { FRONTEND, PORT } from "~/constants/env";
+import cors from "cors";
 
-dotenv.config();
-
-const PORT = process.env.PORT || 5261;
 const app = Express();
+
+app.use(Express.json());
+app.use(
+  cors({
+    origin: FRONTEND,
+    credentials: true,
+  }),
+);
 
 app.get("/", (_, res) => {
   res.status(200).json({ message: "Healthy" });
