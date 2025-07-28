@@ -4,7 +4,7 @@ interface Props {
   id: string;
   ref: React.RefObject<HTMLInputElement | null>;
 }
-const Input = ({ label, type, id, ref }: Props) => {
+export default function Input({ label, type, id, ref }: Props) {
   return (
     <div className="flex flex-col rounded-xl justify-center px-5 py-2 m-2 text-xl md:text-2xl bg-[#F3D7D3]">
       <label htmlFor={id} className="font-bold">
@@ -19,6 +19,4 @@ const Input = ({ label, type, id, ref }: Props) => {
       />
     </div>
   );
-};
-
-export default Input;
+}

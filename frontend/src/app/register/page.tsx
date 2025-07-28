@@ -1,23 +1,28 @@
 "use client";
 import Link from "next/link";
-import Input from "~/components/ui/Input";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { BACKEND } from "~/constants/env";
 import { Notyf } from "notyf";
 import "notyf/notyf.min.css";
 import Logo from "~/components/Logo";
+import Input from "~/components/ui/Input";
+import Button from "~/components/ui/Button";
+import LoadingSpinner from "~/components/ui/LoadingSpinner";
+
+const usernameRegex = /^[a-zA-Z0-9]+$/;
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
 export default function Register() {
-  const usernameRegex = /^[a-zA-Z0-9]+$/;
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
   const emailRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
   const confirmPassRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [notyf, setNotyf] = useState<Notyf | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     setNotyf(new Notyf({}));
@@ -26,20 +31,22 @@ export default function Register() {
   useEffect(() => {
     const verify = async () => {
       try {
-        const response = await fetch(`${BACKEND}/verify`, {
+        const response = await fetch(`${BACKEND}/api/auth/verify`, {
           method: "GET",
           credentials: "include",
         });
 
         if (response.ok) {
-          window.location.href = "/";
+          router.push("/game");
         }
       } catch (error) {
         console.error("Error:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     verify();
-  }, []);
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +72,7 @@ export default function Register() {
     if (!password || !passwordRegex.test(password)) {
       if (notyf) {
         notyf.error(
-          "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+          "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character."
         );
       }
       return;
@@ -78,8 +85,9 @@ export default function Register() {
       return;
     }
 
+    setIsSubmitting(true);
     try {
-      const response = await fetch(`${BACKEND}/register`, {
+      const response = await fetch(`${BACKEND}/api/auth/register`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -99,18 +107,23 @@ export default function Register() {
         }
         return;
       }
-      router.push("/");
+      router.push("/game");
     } catch (error) {
       console.error("Error:", error);
       if (notyf) {
         notyf.error("Internal server error");
       }
-      return;
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-screen px-4">
+    <div className="flex flex-col items-center justify-center w-full min-h-screen px-4 bg-gradient-to-b from-orange-100 to-orange-200">
       <Logo />
       <div className="flex flex-col p-2 md:p-5 items-center bg-white border-[6px] border-[#E75234] -mt-6 z-0 rounded-3xl w-full max-w-xl">
         <h1 className="text-3xl md:text-5xl font-bold text-black uppercase pt-2 px-2 text-center">
@@ -126,16 +139,18 @@ export default function Register() {
             id="confirmPass"
             ref={confirmPassRef}
           />
-          <button
-            className={
-              "text-xl md:text-2xl text-white bg-[#E75134] rounded-3xl py-4 border-8 border-[#FF8167] mb-2 w-full cursor-pointer"
-            }
-          >
-            Register
-          </button>
+          <div className="px-2 mb-2">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="text-xl md:text-2xl py-4 border-8"
+            >
+              {isSubmitting ? "Creating account..." : "Register"}
+            </Button>
+          </div>
           <p className="text-center text-lg md:text-2xl">
             Already have an account?{" "}
-            <Link href="/login" className="text-purple-600">
+            <Link href="/login" className="text-purple-600 hover:underline">
               Login here!
             </Link>
           </p>
